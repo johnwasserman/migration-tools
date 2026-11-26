@@ -126,7 +126,9 @@ if [[ -z "$REGION_ARG" ]]; then
   if (( FOUND )); then
     echo "" >&2
     echo "Done. One report per region was written; send all of them back:" >&2
-    ls -1 "dms-inventory-report-$ACCOUNT-"*"-$(date -u +%Y%m%d).txt" 2>/dev/null | sed 's/^/  /' >&2 || true
+    for f in "dms-inventory-report-$ACCOUNT-"*"-$(date -u +%Y%m%d).txt"; do
+      [[ -e "$f" ]] && echo "  $f" >&2
+    done
   else
     echo "No DMS resources found in any probed region of account $ACCOUNT." >&2
   fi
